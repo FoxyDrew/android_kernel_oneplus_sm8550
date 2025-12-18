@@ -10135,9 +10135,11 @@ void sched_move_task(struct task_struct *tsk)
 		DEQUEUE_SAVE | DEQUEUE_MOVE | DEQUEUE_NOCLOCK;
 	struct rq_flags rf;
 	struct rq *rq;
+
 #if IS_ENABLED(CONFIG_OPLUS_SCHED_TUNE)
 	schedtune_attach(tsk);
 #endif
+	trace_android_vh_sched_move_task(tsk);
 
 	rq = task_rq_lock(tsk, &rf);
 	update_rq_clock(rq);
@@ -11178,7 +11180,7 @@ struct cgroup_subsys cpu_cgrp_subsys = {
 	.early_init	= true,
 	.threaded	= true,
 };
-
+EXPORT_SYMBOL_GPL(cpu_cgrp_subsys);
 #endif	/* CONFIG_CGROUP_SCHED */
 
 void dump_cpu_task(int cpu)
